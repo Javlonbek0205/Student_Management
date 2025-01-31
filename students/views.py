@@ -1,10 +1,8 @@
-from django.shortcuts import render
 from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import status
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
-from rest_framework.settings import api_settings
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from rest_framework.mixins import ListModelMixin,\
     RetrieveModelMixin, CreateModelMixin, DestroyModelMixin, UpdateModelMixin
@@ -24,6 +22,7 @@ class StudentViewSet(
                         DestroyModelMixin,
                         UpdateModelMixin,
                         GenericViewSet):
+    permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
